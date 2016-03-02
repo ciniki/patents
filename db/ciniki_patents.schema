@@ -25,6 +25,8 @@
 #                       0x04 - 
 #                       0x08 - 
 #
+# sequence:             The order to show the patents on the website.
+#
 # primary_image_id:     The ID of the image to show in listings and top of patent page.
 # primary_image_caption:    The caption for the primary image.
 #
@@ -43,6 +45,7 @@ create table ciniki_patents (
     permalink varchar(150) not null,
     status tinyint unsigned not null,
     flags tinyint unsigned not null,
+    sequence tinyint unsigned not null,
     primary_image_id int not null,
     primary_image_caption varchar(250) not null,
     synopsis varchar(2000) not null,
@@ -52,4 +55,4 @@ create table ciniki_patents (
     primary key (id),
     unique index (uuid),
     index sync (business_id, uuid, last_updated)
-) ENGINE='InnoDB', COMMENT='v1.01';
+) ENGINE='InnoDB', COMMENT='v1.02';

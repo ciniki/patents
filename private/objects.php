@@ -23,6 +23,7 @@ function ciniki_patents_objects($ciniki) {
             'permalink'=>array('name'=>'Permalink'),
             'status'=>array('name'=>'Status', 'default'=>'10'),
             'flags'=>array('name'=>'Options'),
+            'sequence'=>array('name'=>'Order', 'default'=>'1'),
             'primary_image_id'=>array('name'=>'Primary Image', 'ref'=>'ciniki.images.image', 'default'=>'0'),
             'primary_image_caption'=>array('name'=>'Primary Image Caption', 'default'=>''),
             'synopsis'=>array('name'=>'Synopsis', 'default'=>''),

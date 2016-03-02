@@ -1,0 +1,7 @@
+#
+# This file will add the uuid to ciniki_events
+# which is required for the sync to work.
+#
+ALTER TABLE ciniki_patents ADD COLUMN sequence tinyint unsigned not null AFTER flags;
+UPDATE ciniki_patents SET sequence = 1;
+ALTER TABLE ciniki_patents COMMENT='v1.02';

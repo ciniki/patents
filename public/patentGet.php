@@ -63,11 +63,22 @@ function ciniki_patents_patentGet($ciniki) {
             'permalink'=>'',
             'status'=>'10',
             'flags'=>'1',
+            'order'=>'1',
             'primary_image_id'=>'0',
             'primary_image_caption'=>'',
             'synopsis'=>'',
             'description'=>'',
         );
+        if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.patents', 0x01) ) {
+            $strsql = "SELECT MAX(sequence) AS seq FROM ciniki_patents WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' ";
+            $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.patents', 'max');
+            if( $rc['stat'] != 'ok' ) { 
+                return $rc;
+            }
+            if( isset($rc['max']['seq']) && $rc['max']['seq'] > 0 ) {
+                $patent['order'] = $rc['max']['seq'] + 1;
+            }
+        }
     }
 
     //

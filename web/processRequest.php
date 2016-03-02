@@ -89,7 +89,7 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
             . "AND status = 10 "
             . "AND (flags&0x01) = 0x01 "
             . "";
-        $strsql .= "ORDER BY name ";
+        $strsql .= "ORDER BY sequence, name ";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.patents', 'patent');
         if( $rc['stat'] != 'ok' ) {
             return $rc;

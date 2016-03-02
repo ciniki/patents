@@ -35,6 +35,7 @@ function ciniki_patents_patentLoad($ciniki, $business_id, $args) {
         . "ciniki_patents.permalink, "
         . "ciniki_patents.status, "
         . "ciniki_patents.flags, "
+        . "ciniki_patents.sequence, "
         . "ciniki_patents.primary_image_id, "
         . "ciniki_patents.primary_image_caption, "
         . "ciniki_patents.synopsis, "

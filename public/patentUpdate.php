@@ -22,6 +22,7 @@ function ciniki_patents_patentUpdate(&$ciniki) {
         'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'),
         'status'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Status'),
         'flags'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Options'),
+        'sequence'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Order'),
         'primary_image_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Primary Image'),
         'primary_image_caption'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Primary Image Caption'),
         'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Synopsis'),

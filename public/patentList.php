@@ -49,6 +49,7 @@ function ciniki_patents_patentList($ciniki) {
         . "ciniki_patents.description "
         . "FROM ciniki_patents "
         . "WHERE ciniki_patents.business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "ORDER BY ciniki_patents.sequence, ciniki_patents.name "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
     $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.patents', array(

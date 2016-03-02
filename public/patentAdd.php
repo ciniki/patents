@@ -25,6 +25,7 @@ function ciniki_patents_patentAdd(&$ciniki) {
         'permalink'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Permalink'),
         'status'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Status'),
         'flags'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Options'),
+        'sequence'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Order'),
         'primary_image_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Primary Image'),
         'primary_image_caption'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Primary Image Caption'),
         'synopsis'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Synopsis'),

@@ -54,6 +54,7 @@ function ciniki_patents_main() {
                 }},
 			'info':{'label':'', 'aside':'yes', 'list':{
 				'name':{'label':'Name'},
+				'sequence':{'label':'Order'},
 				'flags_text':{'label':'Options', 'type':'flags', 'flags':{'1':{'name':'Visible'}}},
 				}},
 			'synopsis':{'label':'Synopsis', 'type':'htmlcontent'},
@@ -122,6 +123,7 @@ function ciniki_patents_main() {
 				}},
             'general':{'label':'General', 'aside':'yes', 'fields':{
                 'name':{'label':'Name', 'hint':'Patents name', 'type':'text', },
+                'sequence':{'label':'Order', 'hint':'1-255', 'type':'text', 'size':'small'},
                 'flags':{'label':'Options', 'type':'flags', 'flags':{'1':{'name':'Visible'}}},
                 }}, 
 			'_synopsis':{'label':'Synopsis', 'fields':{
