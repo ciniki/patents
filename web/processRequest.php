@@ -105,7 +105,7 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
         ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'patentLoad');
         $rc = ciniki_patents_patentLoad($ciniki, $business_id, array('permalink'=>$patent_permalink, 'images'=>'yes'));
         if( $rc['stat'] == 'noexist' ) {
-            return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3152', 'msg'=>"We're sorry, the patent you requested does not exist."));
+            return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3375', 'msg'=>"We're sorry, the patent you requested does not exist."));
         }
         if( $rc['stat'] != 'ok' ) {
             return $rc;
