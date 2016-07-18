@@ -7,10 +7,10 @@
 // Arguments
 // ---------
 // ciniki:
-// settings:		The web settings structure.
-// business_id:		The ID of the business to get post for.
+// settings:        The web settings structure.
+// business_id:     The ID of the business to get post for.
 //
-// args:			The possible arguments for posts
+// args:            The possible arguments for posts
 //
 //
 // Returns
@@ -18,66 +18,66 @@
 //
 function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $args) {
 
-	if( !isset($ciniki['business']['modules']['ciniki.patents']) ) {
-		return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3150', 'msg'=>"I'm sorry, the page you requested does not exist."));
-	}
-	$page = array(
-		'title'=>$args['page_title'],
-		'breadcrumbs'=>$args['breadcrumbs'],
-		'blocks'=>array(),
-		);
+    if( !isset($ciniki['business']['modules']['ciniki.patents']) ) {
+        return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3150', 'msg'=>"I'm sorry, the page you requested does not exist."));
+    }
+    $page = array(
+        'title'=>$args['page_title'],
+        'breadcrumbs'=>$args['breadcrumbs'],
+        'blocks'=>array(),
+        );
 
-	//
-	// Setup titles
-	//
-	if( count($page['breadcrumbs']) == 0 ) {
-		$page['breadcrumbs'][] = array('name'=>'Patents', 'url'=>$args['base_url']);
-	}
+    //
+    // Setup titles
+    //
+    if( count($page['breadcrumbs']) == 0 ) {
+        $page['breadcrumbs'][] = array('name'=>'Patents', 'url'=>$args['base_url']);
+    }
 
-	$display = '';
-	$ciniki['response']['head']['og']['url'] = $args['domain_base_url'];
+    $display = '';
+    $ciniki['response']['head']['og']['url'] = $args['domain_base_url'];
 
-	//
-	// Setup the base url as the base url for this page. This may be altered below
-	// as the uri_split is processed, but we do not want to alter the original passed in.
-	//
-	$base_url = $args['base_url']; // . "/" . $args['blogtype'];
+    //
+    // Setup the base url as the base url for this page. This may be altered below
+    // as the uri_split is processed, but we do not want to alter the original passed in.
+    //
+    $base_url = $args['base_url']; // . "/" . $args['blogtype'];
 
-	//
-	// Check if we are to display an image, from the gallery, or latest images
-	//
-	$display = '';
+    //
+    // Check if we are to display an image, from the gallery, or latest images
+    //
+    $display = '';
 
 //    $page['blocks'][] = array('type'=>'content', 'html'=>'<pre>' . print_r($categories, true) . "</pre>");
-//	return array('stat'=>'ok', 'page'=>$page);
+//  return array('stat'=>'ok', 'page'=>$page);
 
     $uri_split = $args['uri_split'];
    
     //
     // Check for an patent
     //
-	if( isset($uri_split[0]) && $uri_split[0] != '' ) {
-		$patent_permalink = $uri_split[0];
-		$display = 'patent';
-		//
-		// Check for gallery pic request
-		//
-		if( isset($uri_split[1]) && $uri_split[1] == 'gallery'
-			&& isset($uri_split[2]) && $uri_split[2] != '' 
-			) {
-			$image_permalink = $uri_split[2];
-			$display = 'patentpic';
-		}
-		$ciniki['response']['head']['og']['url'] .= '/' . $patent_permalink;
-		$base_url .= '/' . $patent_permalink;
-	}
+    if( isset($uri_split[0]) && $uri_split[0] != '' ) {
+        $patent_permalink = $uri_split[0];
+        $display = 'patent';
+        //
+        // Check for gallery pic request
+        //
+        if( isset($uri_split[1]) && $uri_split[1] == 'gallery'
+            && isset($uri_split[2]) && $uri_split[2] != '' 
+            ) {
+            $image_permalink = $uri_split[2];
+            $display = 'patentpic';
+        }
+        $ciniki['response']['head']['og']['url'] .= '/' . $patent_permalink;
+        $base_url .= '/' . $patent_permalink;
+    }
 
     //
     // No patent specified, display list
     //
-	else {
-		$display = 'list';
-	}
+    else {
+        $display = 'list';
+    }
 
     if( $display == 'list' ) {
         //
@@ -101,7 +101,7 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
         }
     }
 
-	elseif( $display == 'patent' || $display == 'patentpic' ) {
+    elseif( $display == 'patent' || $display == 'patentpic' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'patentLoad');
         $rc = ciniki_patents_patentLoad($ciniki, $business_id, array('permalink'=>$patent_permalink, 'images'=>'yes'));
         if( $rc['stat'] == 'noexist' ) {
@@ -175,13 +175,13 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
         }
     }
 
-	//
-	// Return error if nothing found to display
-	//
-	else {
-		return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3155', 'msg'=>"We're sorry, the page you requested is not available."));
-	}
+    //
+    // Return error if nothing found to display
+    //
+    else {
+        return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3155', 'msg'=>"We're sorry, the page you requested is not available."));
+    }
 
-	return array('stat'=>'ok', 'page'=>$page);
+    return array('stat'=>'ok', 'page'=>$page);
 }
 ?>
