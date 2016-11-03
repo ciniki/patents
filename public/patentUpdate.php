@@ -60,7 +60,7 @@ if( isset($args['name']) ) {
         return $rc;
     }
     if( $rc['num_rows'] > 0 ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3144', 'msg'=>'You already have an patent with this name, please choose another.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.16', 'msg'=>'You already have an patent with this name, please choose another.'));
     }
 }
 

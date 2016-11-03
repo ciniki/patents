@@ -51,7 +51,7 @@ function ciniki_patents_patentDelete(&$ciniki) {
         return $rc;
     }
     if( !isset($rc['patent']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3141', 'msg'=>'Airlock does not exist.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.15', 'msg'=>'Airlock does not exist.'));
     }
     $patent = $rc['patent'];
 

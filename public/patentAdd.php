@@ -66,7 +66,7 @@ function ciniki_patents_patentAdd(&$ciniki) {
         return $rc;
     }
     if( $rc['num_rows'] > 0 ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3140', 'msg'=>'You already have a patent with that name, please choose another.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.14', 'msg'=>'You already have a patent with that name, please choose another.'));
     }
 
     //

@@ -19,7 +19,7 @@
 function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $args) {
 
     if( !isset($ciniki['business']['modules']['ciniki.patents']) ) {
-        return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3150', 'msg'=>"I'm sorry, the page you requested does not exist."));
+        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.17', 'msg'=>"I'm sorry, the page you requested does not exist."));
     }
     $page = array(
         'title'=>$args['page_title'],
@@ -105,17 +105,17 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
         ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'patentLoad');
         $rc = ciniki_patents_patentLoad($ciniki, $business_id, array('permalink'=>$patent_permalink, 'images'=>'yes'));
         if( $rc['stat'] == 'noexist' ) {
-            return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3375', 'msg'=>"We're sorry, the patent you requested does not exist."));
+            return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.18', 'msg'=>"We're sorry, the patent you requested does not exist."));
         }
         if( $rc['stat'] != 'ok' ) {
             return $rc;
         }
         if( !isset($rc['patent']) ) {
-            return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3152', 'msg'=>"We're sorry, the patent you requested does not exist."));
+            return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.19', 'msg'=>"We're sorry, the patent you requested does not exist."));
         } elseif( !isset($rc['patent']['status']) || $rc['patent']['status'] != 10 ) {
-            return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3153', 'msg'=>"We're sorry, the page you requested is not available."));
+            return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.20', 'msg'=>"We're sorry, the page you requested is not available."));
         } elseif( !isset($rc['patent']['flags']) || ($rc['patent']['flags']&0x01) != 0x01 ) {
-            return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3154', 'msg'=>"We're sorry, the page you requested is not available."));
+            return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.21', 'msg'=>"We're sorry, the page you requested is not available."));
         } else {
             $patent = $rc['patent'];
             $page['title'] = $patent['name'];
@@ -179,7 +179,7 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
     // Return error if nothing found to display
     //
     else {
-        return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'3155', 'msg'=>"We're sorry, the page you requested is not available."));
+        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.22', 'msg'=>"We're sorry, the page you requested is not available."));
     }
 
     return array('stat'=>'ok', 'page'=>$page);

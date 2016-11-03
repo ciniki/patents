@@ -48,15 +48,15 @@ function ciniki_patents_patentLoad($ciniki, $business_id, $args) {
     } elseif( isset($args['patent_id']) && $args['patent_id'] > 0 ) {
         $strsql .= "AND ciniki_patents.id = '" . ciniki_core_dbQuote($ciniki, $args['patent_id']) . "' ";
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3156', 'msg'=>'That is not a valid patent.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.4', 'msg'=>'That is not a valid patent.'));
     }
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.patents', 'patent');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3142', 'msg'=>'Patent not found', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.5', 'msg'=>'Patent not found', 'err'=>$rc['err']));
     }
     if( !isset($rc['patent']) ) {
-        return array('stat'=>'noexist', 'err'=>array('pkg'=>'ciniki', 'code'=>'3143', 'msg'=>'Unable to find Patent'));
+        return array('stat'=>'noexist', 'err'=>array('code'=>'ciniki.patents.6', 'msg'=>'Unable to find Patent'));
     }
     $patent = $rc['patent'];
     $patent['flags_text'] = ((($patent['flags']&0x01) == 0x01) ? 'Visible' : 'Hidden');

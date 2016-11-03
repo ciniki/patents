@@ -85,10 +85,10 @@ function ciniki_patents_imageGet($ciniki) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.patents', 'image');
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3157', 'msg'=>'Image not found', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.10', 'msg'=>'Image not found', 'err'=>$rc['err']));
         }
         if( !isset($rc['image']) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3145', 'msg'=>'Unable to find Image'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.11', 'msg'=>'Unable to find Image'));
         }
         $image = $rc['image'];
     }

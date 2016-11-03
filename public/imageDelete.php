@@ -51,7 +51,7 @@ function ciniki_patents_imageDelete(&$ciniki) {
         return $rc;
     }
     if( !isset($rc['image']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3151', 'msg'=>'Airlock does not exist.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.patents.9', 'msg'=>'Airlock does not exist.'));
     }
     $image = $rc['image'];
 
