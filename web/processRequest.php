@@ -8,7 +8,7 @@
 // ---------
 // ciniki:
 // settings:        The web settings structure.
-// business_id:     The ID of the business to get post for.
+// tnid:     The ID of the tenant to get post for.
 //
 // args:            The possible arguments for posts
 //
@@ -16,9 +16,9 @@
 // Returns
 // -------
 //
-function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $args) {
+function ciniki_patents_web_processRequest(&$ciniki, $settings, $tnid, $args) {
 
-    if( !isset($ciniki['business']['modules']['ciniki.patents']) ) {
+    if( !isset($ciniki['tenant']['modules']['ciniki.patents']) ) {
         return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.17', 'msg'=>"I'm sorry, the page you requested does not exist."));
     }
     $page = array(
@@ -85,7 +85,7 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
         //
         $strsql = "SELECT id, name, permalink, primary_image_id AS image_id, synopsis, 'yes' AS is_details "
             . "FROM ciniki_patents "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND status = 10 "
             . "AND (flags&0x01) = 0x01 "
             . "";
@@ -103,7 +103,7 @@ function ciniki_patents_web_processRequest(&$ciniki, $settings, $business_id, $a
 
     elseif( $display == 'patent' || $display == 'patentpic' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'patentLoad');
-        $rc = ciniki_patents_patentLoad($ciniki, $business_id, array('permalink'=>$patent_permalink, 'images'=>'yes'));
+        $rc = ciniki_patents_patentLoad($ciniki, $tnid, array('permalink'=>$patent_permalink, 'images'=>'yes'));
         if( $rc['stat'] == 'noexist' ) {
             return array('stat'=>'404', 'err'=>array('code'=>'ciniki.patents.18', 'msg'=>"We're sorry, the patent you requested does not exist."));
         }

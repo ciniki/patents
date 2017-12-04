@@ -16,7 +16,7 @@ function ciniki_patents_patentUpdate(&$ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'),
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'),
         'patent_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Patent'),
         'name'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Name'),
         'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'),
@@ -35,10 +35,10 @@ function ciniki_patents_patentUpdate(&$ciniki) {
 
     //
     // Make sure this module is activated, and
-    // check permission to run this function for this business
+    // check permission to run this function for this tenant
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'checkAccess');
-    $rc = ciniki_patents_checkAccess($ciniki, $args['business_id'], 'ciniki.patents.patentUpdate');
+    $rc = ciniki_patents_checkAccess($ciniki, $args['tnid'], 'ciniki.patents.patentUpdate');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -51,7 +51,7 @@ if( isset($args['name']) ) {
     //
     $strsql = "SELECT id, name, permalink "
         . "FROM ciniki_patents "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
         . "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
         . "AND id <> '" . ciniki_core_dbQuote($ciniki, $args['patent_id']) . "' "
         . "";
@@ -80,7 +80,7 @@ if( isset($args['name']) ) {
     // Update the Patent in the database
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
-    $rc = ciniki_core_objectUpdate($ciniki, $args['business_id'], 'ciniki.patents.patent', $args['patent_id'], $args, 0x04);
+    $rc = ciniki_core_objectUpdate($ciniki, $args['tnid'], 'ciniki.patents.patent', $args['patent_id'], $args, 0x04);
     if( $rc['stat'] != 'ok' ) {
         ciniki_core_dbTransactionRollback($ciniki, 'ciniki.patents');
         return $rc;
@@ -95,11 +95,11 @@ if( isset($args['name']) ) {
     }
 
     //
-    // Update the last_change date in the business modules
+    // Update the last_change date in the tenant modules
     // Ignore the result, as we don't want to stop user updates if this fails.
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'updateModuleChangeDate');
-    ciniki_businesses_updateModuleChangeDate($ciniki, $args['business_id'], 'ciniki', 'patents');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'updateModuleChangeDate');
+    ciniki_tenants_updateModuleChangeDate($ciniki, $args['tnid'], 'ciniki', 'patents');
 
     return array('stat'=>'ok');
 }

@@ -8,18 +8,18 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:         The ID of the business the patent is attached to.
+// tnid:         The ID of the tenant the patent is attached to.
 // patent_id:          The ID of the patent to get the details for.
 //
 // Returns
 // -------
 //
-function ciniki_patents_patentLoad($ciniki, $business_id, $args) {
+function ciniki_patents_patentLoad($ciniki, $tnid, $args) {
     //
-    // Load business settings
+    // Load tenant settings
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-    $rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+    $rc = ciniki_tenants_intlSettings($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -41,7 +41,7 @@ function ciniki_patents_patentLoad($ciniki, $business_id, $args) {
         . "ciniki_patents.synopsis, "
         . "ciniki_patents.description "
         . "FROM ciniki_patents "
-        . "WHERE ciniki_patents.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE ciniki_patents.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     if( isset($args['permalink']) && $args['permalink'] != '' ) {
         $strsql .= "AND ciniki_patents.permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' ";
@@ -73,7 +73,7 @@ function ciniki_patents_patentLoad($ciniki, $business_id, $args) {
             . "description "
             . "FROM ciniki_patents_images "
             . "WHERE patent_id = '" . ciniki_core_dbQuote($ciniki, $patent['id']) . "' "
-            . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "";
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
         $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.patents', array(
@@ -88,7 +88,7 @@ function ciniki_patents_patentLoad($ciniki, $business_id, $args) {
             $patent['images'] = $rc['images'];
             foreach($patent['images'] as $img_id => $img) {
                 if( isset($img['image_id']) && $img['image_id'] > 0 ) {
-                    $rc = ciniki_images_loadCacheThumbnail($ciniki, $business_id, $img['image_id'], 75);
+                    $rc = ciniki_images_loadCacheThumbnail($ciniki, $tnid, $img['image_id'], 75);
                     if( $rc['stat'] != 'ok' ) {
                         return $rc;
                     }

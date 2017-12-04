@@ -62,7 +62,7 @@ function ciniki_patents_images() {
             return ''; 
         };
         this.edit.fieldHistoryArgs = function(s, i) {
-            return {'method':'ciniki.patents.imageHistory', 'args':{'business_id':M.curBusinessID, 
+            return {'method':'ciniki.patents.imageHistory', 'args':{'tnid':M.curTenantID, 
                 'patent_image_id':this.patent_image_id, 'field':i}};
         };
         this.edit.addDropImage = function(iid) {
@@ -107,7 +107,7 @@ function ciniki_patents_images() {
             this.edit.reset();
             this.edit.sections._buttons.buttons.delete.visible = 'yes';
             var rsp = M.api.getJSONCb('ciniki.patents.imageGet', 
-                {'business_id':M.curBusinessID, 'patent_image_id':this.edit.patent_image_id}, function(rsp) {
+                {'tnid':M.curTenantID, 'patent_image_id':this.edit.patent_image_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -130,7 +130,7 @@ function ciniki_patents_images() {
             var c = this.edit.serializeFormData('no');
             if( c != '' ) {
                 var rsp = M.api.postJSONFormData('ciniki.patents.imageUpdate', 
-                    {'business_id':M.curBusinessID, 
+                    {'tnid':M.curTenantID, 
                     'patent_image_id':this.edit.patent_image_id}, c,
                         function(rsp) {
                             if( rsp.stat != 'ok' ) {
@@ -146,7 +146,7 @@ function ciniki_patents_images() {
         } else {
             var c = this.edit.serializeFormData('yes');
             var rsp = M.api.postJSONFormData('ciniki.patents.imageAdd', 
-                {'business_id':M.curBusinessID, 'patent_id':this.edit.patent_id}, c,
+                {'tnid':M.curTenantID, 'patent_id':this.edit.patent_id}, c,
                     function(rsp) {
                         if( rsp.stat != 'ok' ) {
                             M.api.err(rsp);
@@ -160,7 +160,7 @@ function ciniki_patents_images() {
 
     this.deleteImage = function() {
         if( confirm('Are you sure you want to delete this image?') ) {
-            var rsp = M.api.getJSONCb('ciniki.patents.imageDelete', {'business_id':M.curBusinessID, 
+            var rsp = M.api.getJSONCb('ciniki.patents.imageDelete', {'tnid':M.curTenantID, 
                 'patent_image_id':this.edit.patent_image_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);

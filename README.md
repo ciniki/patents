@@ -1,7 +1,7 @@
-Ciniki - Small Business Management Platform
+Ciniki - Multitenant Cloud Platform
 ===========================================
 
-The patents module stores patents for a business. These can then be displayed on their website.
+The patents module stores patents for a tenant. These can then be displayed on their website.
 
 License
 -------

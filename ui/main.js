@@ -1,5 +1,5 @@
 //
-// This app will handle the listing, additions and deletions of patents.  These are associated business.
+// This app will handle the listing, additions and deletions of patents.  These are associated tenant.
 //
 function ciniki_patents_main() {
     //
@@ -70,7 +70,7 @@ function ciniki_patents_main() {
         };
         this.patent.addDropImage = function(iid) {
             var rsp = M.api.getJSON('ciniki.patents.imageAdd',
-                {'business_id':M.curBusinessID, 'image_id':iid, 'patent_id':M.ciniki_patents_main.patent.patent_id});
+                {'tnid':M.curTenantID, 'image_id':iid, 'patent_id':M.ciniki_patents_main.patent.patent_id});
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
@@ -79,7 +79,7 @@ function ciniki_patents_main() {
         };
         this.patent.addDropImageRefresh = function() {
             if( M.ciniki_patents_main.patent.patent_id > 0 ) {
-                var rsp = M.api.getJSONCb('ciniki.patents.patentGet', {'business_id':M.curBusinessID, 
+                var rsp = M.api.getJSONCb('ciniki.patents.patentGet', {'tnid':M.curTenantID, 
                     'patent_id':M.ciniki_patents_main.patent.patent_id, 'images':'yes'}, function(rsp) {
                         if( rsp.stat != 'ok' ) {
                             M.api.err(rsp);
@@ -139,7 +139,7 @@ function ciniki_patents_main() {
             };  
         this.edit.fieldValue = function(s, i, d) { return this.data[i]; }
         this.edit.fieldHistoryArgs = function(s, i) {
-            return {'method':'ciniki.patents.patentHistory', 'args':{'business_id':M.curBusinessID, 
+            return {'method':'ciniki.patents.patentHistory', 'args':{'tnid':M.curTenantID, 
                 'patent_id':this.patent_id, 'field':i}};
         }
         this.edit.addDropImage = function(iid) {
@@ -176,7 +176,7 @@ function ciniki_patents_main() {
     }
 
     this.menuShow = function(cb, cat) {
-        M.api.getJSONCb('ciniki.patents.patentList', {'business_id':M.curBusinessID}, function(rsp) {
+        M.api.getJSONCb('ciniki.patents.patentList', {'tnid':M.curTenantID}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
@@ -191,7 +191,7 @@ function ciniki_patents_main() {
     this.patentShow = function(cb, pid) {
         this.patent.reset();
         if( pid != null ) { this.patent.patent_id = pid; }
-        M.api.getJSONCb('ciniki.patents.patentGet', {'business_id':M.curBusinessID, 'patent_id':this.patent.patent_id, 'images':'yes'}, function(rsp) {
+        M.api.getJSONCb('ciniki.patents.patentGet', {'tnid':M.curTenantID, 'patent_id':this.patent.patent_id, 'images':'yes'}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
@@ -208,7 +208,7 @@ function ciniki_patents_main() {
         if( pid != null ) { this.edit.patent_id = pid; }
 
         this.edit.sections._buttons.buttons.delete.visible = (this.edit.patent_id>0?'yes':'no');
-        M.api.getJSONCb('ciniki.patents.patentGet', {'business_id':M.curBusinessID, 'patent_id':this.edit.patent_id}, function(rsp) {
+        M.api.getJSONCb('ciniki.patents.patentGet', {'tnid':M.curTenantID, 'patent_id':this.edit.patent_id}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);
                 return false;
@@ -225,7 +225,7 @@ function ciniki_patents_main() {
             var c = this.edit.serializeForm('no');
             if( c != '' ) {
                 M.api.postJSONCb('ciniki.patents.patentUpdate', 
-                    {'business_id':M.curBusinessID, 'patent_id':M.ciniki_patents_main.edit.patent_id}, c,
+                    {'tnid':M.curTenantID, 'patent_id':M.ciniki_patents_main.edit.patent_id}, c,
                     function(rsp) {
                         if( rsp.stat != 'ok' ) {
                             M.api.err(rsp);
@@ -239,7 +239,7 @@ function ciniki_patents_main() {
         } else {
             var c = this.edit.serializeForm('yes');
             if( c != '' ) {
-                M.api.postJSONCb('ciniki.patents.patentAdd', {'business_id':M.curBusinessID}, c, function(rsp) {
+                M.api.postJSONCb('ciniki.patents.patentAdd', {'tnid':M.curTenantID}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -261,7 +261,7 @@ function ciniki_patents_main() {
     this.patentRemove = function() {
         if( confirm("Are you sure you want to remove this patent?") ) {
             M.api.getJSONCb('ciniki.patents.patentDelete', 
-                {'business_id':M.curBusinessID, 'patent_id':M.ciniki_patents_main.edit.patent_id}, function(rsp) {
+                {'tnid':M.curTenantID, 'patent_id':M.ciniki_patents_main.edit.patent_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;

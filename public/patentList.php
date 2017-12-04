@@ -2,13 +2,13 @@
 //
 // Description
 // -----------
-// This method will return the list of Patents for a business.
+// This method will return the list of Patents for a tenant.
 //
 // Arguments
 // ---------
 // api_key:
 // auth_token:
-// business_id:        The ID of the business to get Patent for.
+// tnid:        The ID of the tenant to get Patent for.
 //
 // Returns
 // -------
@@ -19,7 +19,7 @@ function ciniki_patents_patentList($ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'),
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'),
         ));
     if( $rc['stat'] != 'ok' ) {
         return $rc;
@@ -27,10 +27,10 @@ function ciniki_patents_patentList($ciniki) {
     $args = $rc['args'];
 
     //
-    // Check access to business_id as owner, or sys admin.
+    // Check access to tnid as owner, or sys admin.
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'checkAccess');
-    $rc = ciniki_patents_checkAccess($ciniki, $args['business_id'], 'ciniki.patents.patentList');
+    $rc = ciniki_patents_checkAccess($ciniki, $args['tnid'], 'ciniki.patents.patentList');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -48,7 +48,7 @@ function ciniki_patents_patentList($ciniki) {
         . "ciniki_patents.synopsis, "
         . "ciniki_patents.description "
         . "FROM ciniki_patents "
-        . "WHERE ciniki_patents.business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "WHERE ciniki_patents.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
         . "ORDER BY ciniki_patents.sequence, ciniki_patents.name "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');

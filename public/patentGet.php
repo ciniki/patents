@@ -8,7 +8,7 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:         The ID of the business the patent is attached to.
+// tnid:         The ID of the tenant the patent is attached to.
 // patent_id:          The ID of the patent to get the details for.
 //
 // Returns
@@ -20,7 +20,7 @@ function ciniki_patents_patentGet($ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'),
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'),
         'patent_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Patent'),
         'images'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Images'),
         ));
@@ -31,19 +31,19 @@ function ciniki_patents_patentGet($ciniki) {
 
     //
     // Make sure this module is activated, and
-    // check permission to run this function for this business
+    // check permission to run this function for this tenant
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'checkAccess');
-    $rc = ciniki_patents_checkAccess($ciniki, $args['business_id'], 'ciniki.patents.patentGet');
+    $rc = ciniki_patents_checkAccess($ciniki, $args['tnid'], 'ciniki.patents.patentGet');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
 
     //
-    // Load business settings
+    // Load tenant settings
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-    $rc = ciniki_businesses_intlSettings($ciniki, $args['business_id']);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+    $rc = ciniki_tenants_intlSettings($ciniki, $args['tnid']);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -70,7 +70,7 @@ function ciniki_patents_patentGet($ciniki) {
             'description'=>'',
         );
         if( ciniki_core_checkModuleFlags($ciniki, 'ciniki.patents', 0x01) ) {
-            $strsql = "SELECT MAX(sequence) AS seq FROM ciniki_patents WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' ";
+            $strsql = "SELECT MAX(sequence) AS seq FROM ciniki_patents WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' ";
             $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.patents', 'max');
             if( $rc['stat'] != 'ok' ) { 
                 return $rc;
@@ -86,7 +86,7 @@ function ciniki_patents_patentGet($ciniki) {
     //
     else {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'patents', 'private', 'patentLoad');
-        $rc = ciniki_patents_patentLoad($ciniki, $args['business_id'], $args);
+        $rc = ciniki_patents_patentLoad($ciniki, $args['tnid'], $args);
         if( $rc['stat'] != 'ok' ) {
             return $rc;
         }
