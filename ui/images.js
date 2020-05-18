@@ -84,7 +84,7 @@ function ciniki_patents_images() {
         //
         var appContainer = M.createContainer(appPrefix, 'ciniki_patents_images', 'yes');
         if( appContainer == null ) {
-            alert('App Error');
+            M.alert('App Error');
             return false;
         }
 
@@ -159,15 +159,15 @@ function ciniki_patents_images() {
     };
 
     this.deleteImage = function() {
-        if( confirm('Are you sure you want to delete this image?') ) {
+        M.confirm('Are you sure you want to delete this image?',null,function() {
             var rsp = M.api.getJSONCb('ciniki.patents.imageDelete', {'tnid':M.curTenantID, 
-                'patent_image_id':this.edit.patent_image_id}, function(rsp) {
+                'patent_image_id':M.ciniki_patents_images.edit.patent_image_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
                     }
                     M.ciniki_patents_images.edit.close();
                 });
-        }
+        });
     };
 }
