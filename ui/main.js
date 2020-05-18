@@ -259,7 +259,7 @@ function ciniki_patents_main() {
     };
 
     this.patentRemove = function() {
-        if( confirm("Are you sure you want to remove this patent?") ) {
+        M.confirm("Are you sure you want to remove this patent?",null,function() {
             M.api.getJSONCb('ciniki.patents.patentDelete', 
                 {'tnid':M.curTenantID, 'patent_id':M.ciniki_patents_main.edit.patent_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
@@ -268,6 +268,6 @@ function ciniki_patents_main() {
                     }
                     M.ciniki_patents_main.edit.close();
                 });
-        }
+        });
     }
 };
